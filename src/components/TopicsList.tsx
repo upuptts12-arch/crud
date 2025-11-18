@@ -1,10 +1,8 @@
 'use client';
-
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 import { HiPencilAlt } from 'react-icons/hi';
 import RemoveBtn from './RemoveBtn';
-
 interface Topic {
   _id: string;
   title: string;
@@ -23,7 +21,7 @@ export default function TopicsList() {
       try {
         const res = await fetch('/api/topics');
         if (!res.ok) {
-          throw new Error('Topics를 가져오지 못했습니다.');
+          throw new Error('Failed to fetch topics');
         }
         const data = await res.json();
         setTopics(data.topics);
@@ -34,6 +32,7 @@ export default function TopicsList() {
         setLoading(false);
       }
     }
+
     fetchTopics();
   }, []);
 
@@ -45,19 +44,18 @@ export default function TopicsList() {
     <>
       {topics.map((topic: Topic) => (
         <div
-          className="p-4 border border-slate-300 my-3 flex justify-between gap-5 items-start"
           key={topic._id}
+          className="p-4 border border-slate-300 my-3 flex justify-between gap-5 items-start"
         >
           <div>
-            <h2 className="text-2xl font-bold"> {topic.title} </h2>
-            <div> {topic.description} </div>
+            <h2 className="text-2xl font-bold">{topic.title}</h2>
+            <div>{topic.description}</div>
             <div className="flex gap-4">
               <p>Created: {topic.createdAt} </p>
               <p>Updated: {topic.updatedAt} </p>
             </div>
           </div>
-
-          <div className="flex flex-row gap-2">
+          <div className="flex gap-2">
             <RemoveBtn id={topic._id} />
             <Link href={`/editTopic/${topic._id}`}>
               <HiPencilAlt size={24} />

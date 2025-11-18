@@ -15,9 +15,9 @@ export async function POST(request: NextRequest) {
     await Topic.create({ title, description });
     return NextResponse.json({ message: 'Topic created' }, { status: 201 });
   } catch (error) {
-    console.error('Error in POST /api/topics', error);
+    console.error('Error in POST /api/topics:', error);
     return NextResponse.json(
-      { message: 'Internal server error' },
+      { message: 'Internal Server Error' },
       { status: 500 }
     );
   }
@@ -29,9 +29,9 @@ export async function GET() {
     const topics = await Topic.find();
     return NextResponse.json({ topics });
   } catch (error) {
-    console.error('Error in GET /api/topics', error);
+    console.error('Error in GET /api/topics:', error);
     return NextResponse.json(
-      { message: 'Internal server error' },
+      { message: 'Internal Server Error' },
       { status: 500 }
     );
   }
